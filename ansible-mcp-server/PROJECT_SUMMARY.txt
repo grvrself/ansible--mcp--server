@@ -1,0 +1,82 @@
+================================================================================
+  Ansible MCP Server Project Summary
+================================================================================
+
+Overview
+--------------------------------------------------------------------------------
+This project is a FastMCP-based Ansible management server. It lets an MCP client
+call Ansible operations through a local Python process.
+
+The intended deployment model is:
+
+  MCP client
+    |
+    | stdio
+    v
+  Local Python MCP server
+    |
+    | SSH via Paramiko
+    v
+  Ubuntu Ansible controller
+    |
+    | Ansible SSH
+    v
+  Managed Linux nodes
+
+Main Files
+--------------------------------------------------------------------------------
+  server.py
+    FastMCP entry point and MCP tool definitions.
+
+  ansible_runner.py
+    Paramiko SSH wrapper and Ansible command execution helper.
+
+  setup_helper.py
+    First-run workflow for SSH key generation, public key distribution,
+    inventory generation, and connectivity verification.
+
+  config.yaml
+    Public example configuration. Copy it to config.local.yaml for real local
+    credentials and host addresses.
+
+  requirements.txt
+    Python dependencies.
+
+MCP Tools
+--------------------------------------------------------------------------------
+  ansible_setup()
+    Initializes SSH keys, distributes public keys, writes inventory, and verifies
+    connectivity.
+
+  ansible_ping(target)
+    Runs Ansible ping for a host or group.
+
+  ansible_run_command(target, command, become=False)
+    Runs an ad-hoc Ansible command.
+
+  ansible_run_module(target, module, args, become=False)
+    Runs a specific Ansible module.
+
+  ansible_run_playbook(playbook_content, target="")
+    Uploads and executes a playbook.
+
+  ansible_get_facts(target)
+    Collects Ansible facts from a host or group.
+
+  ansible_list_inventory()
+    Displays the remote inventory file.
+
+  ansible_add_host(name, host, user, groups=None)
+    Adds a host entry to inventory.
+
+  ansible_exec_shell(command)
+    Runs a shell command directly on the Ansible controller.
+
+Security Notes
+--------------------------------------------------------------------------------
+This server can execute commands on remote machines. Keep real configuration in
+config.local.yaml, which is ignored by Git. Do not commit passwords, SSH private
+keys, logs, or machine-specific inventory files.
+
+For public use, prefer SSH key authentication and consider disabling direct shell
+execution unless it is needed for a private lab.

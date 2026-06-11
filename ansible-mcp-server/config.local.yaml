@@ -1,0 +1,50 @@
+# ============================================================
+# Ansible MCP Server 配置文件
+# ============================================================
+
+# Ubuntu Ansible 控制节点 (MCP Server 通过 SSH 连接到此节点执行 ansible)
+ansible_controller:
+  host: "192.168.76.129"
+  port: 22
+  user: "grvrself"
+  password: "myf335911"
+  # SSH 连接超时（秒）
+  timeout: 10
+
+# 被管理节点 (将写入 Ansible inventory)
+managed_nodes:
+  - name: "centos"
+    host: "192.168.76.100"
+    user: "grvrself"
+    password: "myf335911"
+    groups:
+      - "linux"
+      - "rhel_family"
+
+  - name: "debian"
+    host: "192.168.76.137"
+    user: "grvrself"
+    password: "myf335911"
+    groups:
+      - "linux"
+      - "debian_family"
+
+  - name: "fedora"
+    host: "192.168.76.135"
+    user: "grvrself"
+    password: "myf335911"
+    groups:
+      - "linux"
+      - "rhel_family"
+
+# Ansible 配置
+ansible:
+  # Ubuntu 上的 inventory 文件路径
+  inventory_path: "/home/grvrself/ansible/inventory/hosts"
+  # Playbook 暂存目录
+  playbook_dir: "/home/grvrself/ansible/playbooks"
+  # 默认是否使用 become (sudo)
+  become: true
+  become_user: "root"
+  # 命令执行默认超时（秒）
+  command_timeout: 120

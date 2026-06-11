@@ -1,0 +1,44 @@
+# ============================================================
+# Ansible MCP Server example config
+# Copy this file to config.local.yaml and replace placeholder values.
+# Do not commit config.local.yaml.
+# ============================================================
+
+ansible_controller:
+  host: "192.168.x.x"
+  port: 22
+  user: "your_controller_user"
+  password: "CHANGE_ME"
+  timeout: 10
+
+managed_nodes:
+  - name: "centos"
+    host: "192.168.x.x"
+    user: "your_node_user"
+    password: "CHANGE_ME"
+    groups:
+      - "linux"
+      - "rhel_family"
+
+  - name: "debian"
+    host: "192.168.x.x"
+    user: "your_node_user"
+    password: "CHANGE_ME"
+    groups:
+      - "linux"
+      - "debian_family"
+
+  - name: "fedora"
+    host: "192.168.x.x"
+    user: "your_node_user"
+    password: "CHANGE_ME"
+    groups:
+      - "linux"
+      - "rhel_family"
+
+ansible:
+  inventory_path: "/home/your_controller_user/ansible/inventory/hosts"
+  playbook_dir: "/home/your_controller_user/ansible/playbooks"
+  become: true
+  become_user: "root"
+  command_timeout: 120
